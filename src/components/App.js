@@ -6,6 +6,26 @@ import PetBrowser from "./PetBrowser";
 function App() {
   const [pets, setPets] = useState([]);
   const [filters, setFilters] = useState({ type: "all" });
+  const url = "http://localhost:3001/pets"
+  function handleChangeType(e) {
+    setFilters({type: e.target.value})
+  }
+
+  function handleFindPets() {
+    if(filters.type === "all"){
+      fetch(url)
+      .then(r => r.json())
+      .then(data => setPets(data))
+    }else{
+      fetch(url)
+      .then(r => r.json())
+      .then(data => setPets(data.filter(pet => pet.type === filters.type)))
+    }
+  }
+
+  function handleAdoptPet(id) {
+    pets.find(pet => pet.id === id ? {...pet, isAdopted : true} : pet)
+  }
 
   return (
     <div className="ui container">
@@ -15,10 +35,10 @@ function App() {
       <div className="ui container">
         <div className="ui grid">
           <div className="four wide column">
-            <Filters />
+            <Filters onChangeType={handleChangeType} onFindPetsClick={handleFindPets} />
           </div>
           <div className="twelve wide column">
-            <PetBrowser />
+            <PetBrowser pets={pets} onAdoptPet={handleAdoptPet} />
           </div>
         </div>
       </div>
