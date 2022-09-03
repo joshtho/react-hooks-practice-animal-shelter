@@ -24,9 +24,15 @@ function App() {
   }
 
   function handleAdoptPet(id) {
-    pets.find(pet => pet.id === id ? {...pet, isAdopted : true} : pet)
+   setPets(pets.find(pet => pet.id === id ? {...pet, isAdopted : true} : pet))
   }
 
+  // function handleAdoptPet(id) {
+  //   const updatedPets = pets.map((pet) => {
+  //     return pet.id === id ? { ...pet, isAdopted: true } : pet;
+  //   });
+  //   setPets(updatedPets);
+  // }
   return (
     <div className="ui container">
       <header>
